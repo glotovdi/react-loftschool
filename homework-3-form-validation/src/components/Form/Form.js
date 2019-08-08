@@ -1,6 +1,7 @@
 import React from 'react';
 import Bond from './assets/bond_approve.jpg';
 import './Form.css';
+
 export default class Form extends React.Component {
   state = {
     firstName: { value: '', error: '' },
@@ -127,24 +128,20 @@ export default class Form extends React.Component {
   }
 }
 
-class Field extends React.Component {
-  render() {
-    return (
-      <p className="field">
-        <label className="field__label" htmlFor={this.props.name}>
-          <span className="field-label">{this.props.title}</span>
-        </label>
-        <input
-          className={`field__input field-input t-input-${this.props.name}`}
-          type={this.props.type}
-          name={this.props.name}
-          value={this.props.value}
-          onChange={this.props.changeFn}
-        />
-        <span className={`field__error field-error t-error-${this.props.name}`}>
-          {this.props.error}
-        </span>
-      </p>
-    );
-  }
-}
+const Field = props => (
+  <p className="field">
+    <label className="field__label" htmlFor={props.name}>
+      <span className="field-label">{props.title}</span>
+    </label>
+    <input
+      className={`field__input field-input t-input-${props.name}`}
+      type={props.type}
+      name={props.name}
+      value={props.value}
+      onChange={props.changeFn}
+    />
+    <span className={`field__error field-error t-error-${props.name}`}>
+      {props.error}
+    </span>
+  </p>
+);
