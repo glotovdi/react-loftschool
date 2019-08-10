@@ -1,5 +1,6 @@
 import React from 'react';
 import Bond from './assets/bond_approve.jpg';
+import Field from './components/Field/Field';
 import './Form.css';
 
 export default class Form extends React.Component {
@@ -10,27 +11,12 @@ export default class Form extends React.Component {
     isValidForm: false
   };
 
-  handleFirstNameChange = event => {
-    event.persist();
-    this.setStateForField('firstName', event.target.value);
-  };
-
-  handleLastNameChange = event => {
-    event.persist();
-    this.setStateForField('lastName', event.target.value);
-  };
-
-  handlePasswordChange = event => {
-    event.persist();
-    this.setStateForField('password', event.target.value);
-  };
-
-  setStateForField(name, value) {
+  setStateForField = name => event => {
     this.setState({
-      [name]: { error: '', value }
+      [name]: { error: '', value: event.target.value }
     });
     this.resetErrors();
-  }
+  };
 
   resetErrors() {
     this.setState(prevState => ({
@@ -65,7 +51,7 @@ export default class Form extends React.Component {
 
   setError(field, error) {
     this.setState(prevState => ({
-      [field]: { value: prevState[field].valule, error: error }
+      [field]: { value: prevState[field].value, error: error }
     }));
   }
 
@@ -91,7 +77,7 @@ export default class Form extends React.Component {
           <Field
             title="Имя"
             value={this.state.firstName.value}
-            changeFn={this.handleFirstNameChange}
+            changeFn={this.setStateForField('firstName')}
             error={this.state.firstName.error}
             name="firstname"
             type="text"
@@ -100,7 +86,7 @@ export default class Form extends React.Component {
           <Field
             title="Фамилия"
             value={this.state.lastName.value}
-            changeFn={this.handleLastNameChange}
+            changeFn={this.setStateForField('lastName')}
             error={this.state.lastName.error}
             name="lastname"
             type="text"
@@ -109,7 +95,7 @@ export default class Form extends React.Component {
           <Field
             title="Пароль"
             value={this.state.password.value}
-            changeFn={this.handlePasswordChange}
+            changeFn={this.setStateForField('password')}
             error={this.state.password.error}
             name="password"
             type="password"
@@ -127,21 +113,3 @@ export default class Form extends React.Component {
     );
   }
 }
-
-const Field = props => (
-  <p className="field">
-    <label className="field__label" htmlFor={props.name}>
-      <span className="field-label">{props.title}</span>
-    </label>
-    <input
-      className={`field__input field-input t-input-${props.name}`}
-      type={props.type}
-      name={props.name}
-      value={props.value}
-      onChange={props.changeFn}
-    />
-    <span className={`field__error field-error t-error-${props.name}`}>
-      {props.error}
-    </span>
-  </p>
-);
